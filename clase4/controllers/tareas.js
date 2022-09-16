@@ -1,65 +1,40 @@
-const tareas = [
-  {
-    id: 1,
-    nombre: "Ir al banco",
-    descripcion: "",
-    prioridad: "alta",
-    completado: false,
-  },
-  {
-    id: 2,
-    nombre: "Preparar mate",
-    descripcion: "",
-    prioridad: "media",
-    completado: false,
-  },
-  {
-    id: 3,
-    nombre: "Caminar",
-    descripcion: "Dar la vuelta por el parque",
-    prioridad: "media",
-    completado: false,
-  },
-  {
-    id: 4,
-    nombre: "Leer un libro",
-    descripcion: "Continuar leyendo...",
-    prioridad: "media",
-    completado: true,
-  },
-  {
-    id: 5,
-    nombre: "Ser un crack",
-    descripcion: "Parecerle al Ronal",
-    prioridad: "alta",
-    completado: false,
-  },
-];
+const db = require("../db/index");
 
-const get = (req, res) => {
-  return res
-    .status(200)
-    .json({ data: tareas, success: true, message: "Lista de tareas" });
+const get = async (req, res) => {
+  try {
+    const tareas = await db.query("select * from tareas");
+
+    return res
+      .status(200)
+      .json({ data: tareas.rows, success: true, message: "Lista de tareas" });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-const create = (req, res) => {
-  const { id, nombre, descripcion, prioridad, completado } = req.body;
+const create = async (req, res) => {
+  try {
+    const { titulo, prioridad } = req.body;
 
-  const nuevaTarea = {
-    id,
-    nombre,
-    descripcion,
-    prioridad,
-    completado,
-  };
+    const nuevaTarea = {
+      titulo,
+      prioridad,
+    };
 
-  tareas.push(nuevaTarea);
+    await db.query(
+      `insert into tareas (titulo, prioridad) 
+       values($1, $2)`,
+      [titulo, prioridad]
+    );
 
-  return res.status(200).json({
-    data: tareas,
-    success: true,
-    message: "Se insertó una nueva tarea",
-  });
+    return res.status(200).json({
+      data: nuevaTarea,
+      success: true,
+      message: "Se insertó una nueva tarea",
+    });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 module.exports = { get, create };
