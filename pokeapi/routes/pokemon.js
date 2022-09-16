@@ -13,16 +13,12 @@ router.get("/", async (req, res) => {
       const abilitiesFetch = await axios.get(pokemonesApi[i].url);
       const abilitiesApi = abilitiesFetch.data;
 
-      abilitiesApi.type[({}, {})];
-
       const pokemon = {
         name: pokemonesApi[i].name,
         caracteristicas: {
           abilities: abilitiesApi.abilities,
           weight: abilitiesApi.weight,
           height: abilitiesApi.height,
-          type1: abilitiesApi.type[0].name,
-          type2: abilitiesApi.type.length > 1 ? abilitiesApi.type[1].name : "",
         },
       };
 
