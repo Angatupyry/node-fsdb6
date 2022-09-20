@@ -16,11 +16,6 @@ const create = async (req, res) => {
   try {
     const { titulo, prioridad } = req.body;
 
-    const nuevaTarea = {
-      titulo,
-      prioridad,
-    };
-
     await db.query(
       `insert into tareas (titulo, prioridad) 
        values($1, $2)`,
@@ -28,7 +23,7 @@ const create = async (req, res) => {
     );
 
     return res.status(200).json({
-      data: nuevaTarea,
+      data: req.body,
       success: true,
       message: "Se insertó una nueva tarea",
     });
