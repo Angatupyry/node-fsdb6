@@ -1,5 +1,7 @@
 const db = require("../db/index");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { TOKEN_SECRET } = require("../middleware/jw-validate");
 
 const registro = async (req, res) => {
   try {
@@ -60,7 +62,17 @@ const login = async (req, res) => {
         .json({ success: false, message: "Password inválido" });
     }
 
-    return res.status(200).json({ success: true, message: "Logueado :D" });
+    const token = jwt.sign(
+      {
+        name: user.rows[0].name,
+        mail: mail,
+      },
+      TOKEN_SECRET
+    );
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Logueado :D", token: token });
   } catch (error) {
     console.log(error);
   }
