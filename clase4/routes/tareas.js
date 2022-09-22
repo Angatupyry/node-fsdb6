@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.get("/", verifyToken, get);
 
-router.post("/", create);
+router.post("/", verifyToken, create);
 
 module.exports = router;

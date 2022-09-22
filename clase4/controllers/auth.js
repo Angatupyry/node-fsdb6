@@ -72,7 +72,7 @@ const login = async (req, res) => {
 
     return res
       .status(200)
-      .json({ success: true, message: "Logueado :D", token: token });
+      .json({ success: true, message: "Logueado :D", token });
   } catch (error) {
     console.log(error);
   }
