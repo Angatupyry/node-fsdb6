@@ -32,4 +32,22 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { get, create };
+const actualizar = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const { titulo, prioridad } = req.body;
+
+    await db.query(
+      "update tareas set titulo = $1, prioridad = $2 where id = $3",
+
+      [titulo, prioridad, id]
+    );
+
+    return res.status(204);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+module.exports = { get, create, actualizar };
