@@ -1,6 +1,9 @@
 const hola = (req, res, next) => {
   try {
-    res.send("Hola, mundo");
+    return res.status(200).json({
+      data: [],
+      message: "Hola, mundo :D",
+    });
   } catch (error) {
     return next(error);
   }
