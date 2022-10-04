@@ -3,10 +3,11 @@ const tareas = require("./routes/tareas");
 const pokemones = require("./routes/pokemones.route");
 const auth = require("./routes/auth");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 
-const PORT = 4000;
+const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
